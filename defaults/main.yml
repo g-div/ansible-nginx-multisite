@@ -1,0 +1,5 @@
+---
+user: web
+nginx_conf_dir: /etc/nginx
+folder: /var/www
+domain: example.com

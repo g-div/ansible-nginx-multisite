@@ -1,0 +1,11 @@
+---
+user: web
+domain: webkid.io
+
+folder: /home/web
+
+projects:
+
+  - name: test
+    port: 1337
+    repo: https://github.com/wbkd/hapi-rest-starter-simple.git

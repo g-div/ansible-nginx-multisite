@@ -1,0 +1,29 @@
+---
+- name: Setup nginx
+  hosts: demo
+  user: "{{ user }}"
+
+  vars_files:
+    - defaults/main.yml
+    - vars.yml
+
+  handlers:
+    - include: handlers/main.yml
+
+  tasks:
+    - name: Clone the repo
+      git: repo={{ item.repo }} dest={{ folder }}/{{ item.name }}
+      with_items: "{{ projects }}"
+      register: repo
+
+    - name: Setup vhosts
+      template: src=templates/nginx_server.j2 dest={{nginx_conf_dir}}/sites-available/{{ item.name }}.conf
+      with_items: "{{ projects }}"
+      sudo: yes
+
+    - name: Create links for sites-enabled
+      file: state=link src={{nginx_conf_dir}}/sites-available/{{ item.name }}.conf dest={{nginx_conf_dir}}/sites-enabled/{{ item.name }}.conf
+      with_items: "{{ projects }}"
+      sudo: yes
+      notify:
+       - reload nginx
