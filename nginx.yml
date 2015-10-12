@@ -10,8 +10,6 @@
   handlers:
     - include: handlers/main.yml
 
-
-
   tasks:
     - name: Clone the repo
       git: repo={{ item.repo }} dest={{ folder }}/{{ item.name }}
@@ -22,6 +20,11 @@
       file: path=/home/{{ user }}/project state=absent
       file: path={{ nginx_dir }}/sites-enabled/default.conf state=absent
       file: path={{ nginx_dir }}/sites-available/default.conf state=absent
+      sudo: yes
+
+    - name: Add static files folders
+      file: path={{ folder }}/{{ item.static }} state=directory
+      with_items: "{{ projects }}"
 
     - name: Setup vhosts
       template: src=templates/nginx_server.j2 dest={{ nginx_dir }}/sites-available/{{ item.name }}.conf

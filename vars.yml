@@ -9,3 +9,4 @@ projects:
   - name: test
     port: 1337
     repo: https://github.com/wbkd/hapi-rest-starter-simple.git
+    static: test_static

@@ -26,6 +26,5 @@ Run:
 	ansible-playbook -i hosts nginx.yml
 
 #### TODOs:
-- [ ] Handle static files
 - [ ] Create DNS record for new subdomains
 - [ ] Use DigitalOcean dynamic inventory
