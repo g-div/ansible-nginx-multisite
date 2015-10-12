@@ -22,7 +22,7 @@
       sudo: yes
 
     - name: Create links for sites-enabled
-      file: state=link src={{nginx_conf_dir}}/sites-available/{{ item.name }}.conf dest={{nginx_conf_dir}}/sites-enabled/{{ item.name }}.conf
+      file: state=link src={{ nginx_conf_dir }}/sites-available/{{ item.name }}.conf dest={{ nginx_conf_dir }}/sites-enabled/{{ item.name }}.conf
       with_items: "{{ projects }}"
       sudo: yes
       notify:
@@ -42,4 +42,8 @@
         chdir: ~/{{ item.name }}
         executable: /usr/bin/zsh
       when: repo.changed
+      with_items: "{{ projects }}"
+
+    - name: Print info
+      debug: msg="{{ item.name }} is running on port {{ item.port }} and its static files should be located at {{ folder }}/{{ item.name }}. The project is accessible at {{ item.name }}.{{ domain }}"
       with_items: "{{ projects }}"
