@@ -10,19 +10,26 @@
   handlers:
     - include: handlers/main.yml
 
+
+
   tasks:
     - name: Clone the repo
       git: repo={{ item.repo }} dest={{ folder }}/{{ item.name }}
       with_items: "{{ projects }}"
       register: repo
 
+    - name: Remove default nginx site
+      file: path=/home/{{ user }}/project state=absent
+      file: path={{ nginx_dir }}/sites-enabled/default.conf state=absent
+      file: path={{ nginx_dir }}/sites-available/default.conf state=absent
+
     - name: Setup vhosts
-      template: src=templates/nginx_server.j2 dest={{nginx_conf_dir}}/sites-available/{{ item.name }}.conf
+      template: src=templates/nginx_server.j2 dest={{ nginx_dir }}/sites-available/{{ item.name }}.conf
       with_items: "{{ projects }}"
       sudo: yes
 
     - name: Create links for sites-enabled
-      file: state=link src={{ nginx_conf_dir }}/sites-available/{{ item.name }}.conf dest={{ nginx_conf_dir }}/sites-enabled/{{ item.name }}.conf
+      file: state=link src={{ nginx_dir }}/sites-available/{{ item.name }}.conf dest={{ nginx_dir }}/sites-enabled/{{ item.name }}.conf
       with_items: "{{ projects }}"
       sudo: yes
       notify:
