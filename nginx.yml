@@ -27,3 +27,19 @@
       sudo: yes
       notify:
        - reload nginx
+
+    - name: Install npm packages
+      shell: source {{ folder }}/.nvm/nvm.sh && npm install # Workaround for nvm
+      args:
+        chdir: ~/{{ item.name }}
+        executable: /usr/bin/zsh
+      when: repo.changed
+      with_items: "{{ projects }}"
+
+    - name: Start app
+      shell: source {{ folder }}/.nvm/nvm.sh && forever start --sourceDir . --workingDir . -c "npm start" .
+      args:
+        chdir: ~/{{ item.name }}
+        executable: /usr/bin/zsh
+      when: repo.changed
+      with_items: "{{ projects }}"
