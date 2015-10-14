@@ -28,3 +28,4 @@ Run:
 #### TODOs:
 - [ ] Create DNS record for new subdomains
 - [ ] Use DigitalOcean dynamic inventory
+- [ ] Remove default site folder "/project"
