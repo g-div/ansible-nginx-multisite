@@ -28,4 +28,7 @@ Run:
 #### TODOs:
 - [ ] Create DNS record for new subdomains
 - [ ] Use DigitalOcean dynamic inventory
-- [ ] Remove default site folder "/project"
+- [ ] Delete config if site is removed:
+
+		rm /etc/nginx/sites/{{ site }}.conf
+		rm -r /home/web/{{ site }}

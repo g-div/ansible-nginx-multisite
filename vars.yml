@@ -1,8 +1,10 @@
 ---
 user: web
 domain: webkid.io
+subdomain: apps
 
 folder: /home/web
+default_static: project
 
 projects:
 
