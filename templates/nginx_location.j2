@@ -1,3 +1,5 @@
+# Ansible managed
+
 location /{{ item.name }}/ {
 	alias {{ folder }}/{{ item.static }}/;
 	try_files $uri $uri/ @backend;
